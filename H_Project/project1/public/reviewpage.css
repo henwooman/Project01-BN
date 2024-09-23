@@ -1,0 +1,339 @@
+:root {
+    --color-gainsboro: #dcdcdc;
+    --color-darkorange: #ff8c00;
+    --color-dimgray-100: #696969;
+    --color-black: #000000;
+    --color-silver: #c0c0c0;
+    --color-white: #ffffff;
+    --padding-3xs: 4px;
+    --padding-xs: 8px;
+    --padding-s: 16px;
+    --padding-m: 24px;
+    --padding-l: 32px;
+    --br-3xs: 4px;
+    --br-xs: 8px;
+    --gap-xs: 8px;
+    --font-size-mini: 12px;
+    --font-size-s: 16px;
+    --font-size-m: 18px;
+    --font-size-l: 24px;
+    --font-family: 'Cafe24Ssurround', sans-serif;
+    --font-cafe24-Ssurround-otf: 'Cafe24Ssurround', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+}
+
+/* 웹 폰트 정의 */
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-inter);
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--font-family);
+}
+
+.container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 45px;
+    box-sizing: border-box;
+}
+
+.header {
+    width: 100%;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--padding-s);
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 25px;
+    padding: 5px;
+    height: 55px;
+    object-fit: cover;
+    z-index: 1001;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 140px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    z-index: 1001;
+    border-radius: 100px;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.nav-item {
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    width: auto;
+    height: 45px;
+    color: #ffffff;
+    font-family: var(--font-cafe24-Ssurround-otf);
+    font-size: 28px;
+    -webkit-text-stroke: 2px #696969;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: transparent;
+    text-align: left;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 100px;
+    padding: 10px 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nav-item:last-child {
+    margin-bottom: 0;
+}
+
+.nav-item:hover {
+    background-color: #FFC567;
+    color: var(--color-white);
+}
+
+.user-info {
+    position: fixed;
+    top: 150px;
+    right: 60px;
+    width: 250px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    background-color: white;
+    padding: 5px;
+    border-radius: 30px;
+    z-index: 1000;
+    border: 2px solid #FFC567;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-size-s);
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #000000;
+}
+
+.profileUser {
+    width: 50px;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    flex-grow: 1;
+    background-color: #fffdf4;
+    border-radius: 10px;
+    width: 50%;
+    height: 100%;
+}
+
+.wishlist-header {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 추가 */
+    align-items: center; /* 수직 중앙 정렬 유지 */
+    margin-bottom: 20px; /* 제목과 폼 사이의 간격 */
+}
+
+.wishlist-icon {
+    width: 35px; /* 아이콘 너비 */
+    height: 35px; /* 아이콘 높이 */
+    margin-right: 20px; /* 아이콘과 제목 사이의 간격 */
+    object-fit: cover;
+    padding-bottom: 34px;
+}
+
+.wishlist-header h1 {
+    font-size: 30px; /* 제목의 폰트 크기 */
+    margin: 0; /* 제목의 기본 여백 제거 */
+    font-family: var(--font-cafe24-Ssurround-otf); /* 폰트 설정 */
+    line-height: 1.5; /* 텍스트 높이 조정 */
+}
+
+.review-form {
+    width: 100%;
+    max-width: 500px;
+    padding: var(--padding-l);
+    border: 1px solid var(--color-gainsboro);
+    border-radius: var(--br-xs);
+    background-color: var(--color-white);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    width: 100%; /* 부모 컨테이너가 전체 너비를 차지하게 함 */
+    padding-top: 20px; /* 리뷰 작성 공간과 버튼 사이 여백 */
+}
+
+.submit-button {
+    width: 150px; /* 버튼 너비 설정 */
+    height: 60px; /* 버튼 높이 설정 */
+    padding: var(--padding-m); /* 버튼 안쪽 여백 */
+    border: none;
+    border-radius: 30px; /* 버튼 모서리 둥글게 */
+    background-color: #FFC567; /* 버튼 배경색 */
+    color: var(--color-white); /* 버튼 텍스트 색상 */
+    font-size: var(--font-size-m); /* 버튼 텍스트 크기 */
+    font-family: var(--font-cafe24-Ssurround-otf);
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 배경색 변화 애니메이션 */
+    text-align: center; /* 버튼 텍스트 중앙 정렬 */
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    line-height: 1; /* 줄 높이 설정 */
+}
+
+.submit-button:hover {
+    background-color: #ff8c00;
+}
+
+.review-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.review-form label {
+    font-size: var(--font-size-m);
+    color: var(--color-dimgray-100);
+    margin-bottom: var(--gap-xs);
+}
+
+/* 리뷰 작성하는 박스 부분 */
+.review-form textarea {
+    width: 100%;
+    height: 200px;
+    padding: var(--padding-s);
+    border: 1px solid var(--color-gainsboro);
+    border-radius: var(--br-xs);
+    font-size: var(--font-size-s);
+    box-sizing: border-box;
+    resize: vertical;
+    z-index:1000;
+}
+
+h1 {
+    font-size: 30px;
+    color: black;
+    margin-bottom: var(--gap-xs);
+    font-family: var(--font-cafe24-Ssurround-otf);
+    padding-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    padding-bottom: 20px;
+}
+
+/* 가게명 입력하는 박스 부분 */
+.form-group input[type="text"] {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    padding: var(--padding-s);
+    border: 1px solid var(--color-gainsboro);
+    border-radius: var(--br-xs);
+}
+
+.footer {
+    text-align: center;
+    background-color: #FFC567;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+    padding: 0;
+}
+
+.nav-images {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 390px;
+    left: 0;
+    right: 0;
+    padding: 0 var(--padding-m);
+    padding-top: 100px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.nav-image-left {
+    width: 280px;
+    height: auto;
+    padding-left: 30px;
+}
+
+.nav-image-right {
+    width: 280px;
+    height: auto;
+    padding-right: 30px;
+}

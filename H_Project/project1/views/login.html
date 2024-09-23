@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="stylesheet" href="/login.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ONE+Mobile+OTF:wght@400;700&display=swap" />
+    <title>로그인</title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img class="logo" alt="로고" src="/icon/BNlogo.png">
+            <img class="header-image" alt="상단 배너" src="/icon/topgarender.png">
+        </header>
+        
+        <!-- 네비게이션 바 -->
+        <nav class="nav" aria-label="Main Navigation">
+            <a href="/" class="nav-item" onclick="handleHomeButtonClick()">HOME</a>
+            <a href="mypage" class="nav-item" onclick="handleMyButtonClick()">MY</a>
+            <a href="login" class="nav-item" onclick="handleLoginButtonClick()">LOGIN</a>
+            <a href="favorite" class="nav-item" onclick="handleFavoriteButtonClick()">FAVORITE</a>
+        </nav>
+        
+        <!-- 유저 정보 영역 -->
+        <div class="user-info" id="userInfo">
+            <img class="profileUser" src="/icon/userpink.png" alt="프로필 사진" id="profilePic">
+            <div class="user-details">
+                <span id="userId">비회원 님</span>
+                <span id="userEmail"></span>
+            </div>
+        </div>
+        
+        <!-- 네비게이션 이미지 좌우가랜더 -->
+        <div class="nav-images">
+            <img src="/icon/dividergrender.png" alt="Left Image" class="nav-image-left">
+            <img src="/icon/dividergrender.png" alt="Right Image" class="nav-image-right">
+        </div>
+
+        <main class="main">
+            <div class="image-container">
+                <img src="/icon/nugul2.png" alt="프로필 사진" class="top-image">
+            </div>
+
+            <!--일반유저 사업자유저 누르는 탭 메뉴 -->
+            <div class="signup-container">
+                <div class="tab-menu">
+                    <!-- 일반 유저와 사업자 유저를 선택할 수 있는 탭 버튼 -->
+                    <button class="tab-button active" onclick="openTab(event, 'general')">일반 유저</button>
+                    <button class="tab-button" onclick="openTab(event, 'business')">사업자 유저</button>
+                </div>    
+
+                <div class="tab-content">
+                    <!-- 일반유저폼 -->
+                    <form id="general" class="signup-form" action="/user/login" method="post">
+                        <div class="form-group">
+                            <label for="name">아이디</label>
+                            <input type="text" id="name" name="id" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">비밀번호</label>
+                            <input type="password" id="password" name="pw" required>
+                        </div>
+
+                        <div class="forgot-password">
+                            <a href="/reset-password">아이디 찾기 / 비밀번호 재설정</a>
+                        </div>
+
+                        <button type="submit" class="signup-button">로그인</button>
+                        <div class="signup-link">
+                            <span>아직 계정이 없으신가요?</span>
+                            <a href="/register">회원가입하기</a>
+                        </div>
+                    </form>
+
+                    <!-- 사업자 유저 폼 -->
+                    <form id="business" class="signup-form" action="/owner/login" method="post" style="display:none;">
+                        <div class="form-group">
+                            <label for="name">사업자 아이디</label>
+                            <input type="text" id="name" name="id" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">비밀번호</label>
+                            <input type="password" id="password" name="pw" required>
+                        </div>
+
+                        <div class="forgot-password">
+                            <a href="/reset-password">아이디 찾기 / 비밀번호 재설정</a>
+                        </div>
+
+                        <button type="submit" class="signup-button">로그인</button>
+                        <div class="signup-link">
+                            <span>아직 계정이 없으신가요?</span>
+                            <a href="/register">회원가입하기</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    
+    <script>
+        // 로그인 여부를 확인하여 user-info 표시 내용을 결정
+        function checkLoginStatus() {
+            // 실제 로그인 구현에서는 서버에서 로그인 여부를 확인하는 API를 호출하거나,
+            // 로컬 스토리지/쿠키 등을 검사하여 로그인 상태를 확인합니다.
+            var isLoggedIn = false; // 이 값은 실제 로그인 상태에 따라 변경되어야 합니다.
+
+            if (isLoggedIn) {
+                displayUserInfo("user@example.com", "닉네임");
+            } else {
+                displayGuestInfo();
+            }
+        }
+
+        // 로그인한 유저 정보 표시
+        function displayUserInfo(userId, userNickname) {
+            document.getElementById('userId').innerText = userNickname + " 님";
+            document.getElementById('userEmail').innerText = userId;
+            document.getElementById('profilePic').src = "/icon/userpink.png"; // 프로필 사진 경로
+        }
+
+        // 비회원 정보 표시
+        function displayGuestInfo() {
+            document.getElementById('userId').innerText = "비회원 님";
+            document.getElementById('userEmail').innerText = "";
+            document.getElementById('profilePic').src = "/icon/userpink.png"; // 비회원 기본 사진 경로
+        }
+
+        // 특정 탭을 여는 함수 일반유저 / 사업자유저 구분
+        function openTab(event, tabName) {
+            var i, tabcontent, tabbuttons;
+
+            // 모든 탭 콘텐츠를 숨김
+            tabcontent = document.getElementsByClassName("signup-form");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // 모든 탭 버튼에서 "active" 클래스를 제거
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+            }
+
+            // 선택된 탭의 콘텐츠를 표시하고, 해당 버튼에 "active" 클래스 추가
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+
+        // 페이지 로드 시 기본 탭 설정
+        document.addEventListener("DOMContentLoaded", function() {
+            openTab(null, 'general'); // 기본적으로 '일반 유저' 탭을 표시
+        });
+    </script>
+
+    <footer class="footer">
+        <p>@ 2024 Black Nuguri</p>
+    </footer>
+</body>
+</html>

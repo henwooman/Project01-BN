@@ -1,0 +1,358 @@
+:root {
+    --color-gainsboro: #dcdcdc;
+    --color-darkorange: #ff8c00;
+    --color-dimgray-100: #696969;
+    --color-black: #000000;
+    --color-silver: #c0c0c0;
+    --color-white: #ffffff;
+    --padding-3xs: 4px;
+    --padding-xs: 8px;
+    --padding-s: 16px;
+    --padding-m: 24px;
+    --padding-l: 32px;
+    --padding-xl: 40px;
+    --br-3xs: 4px;
+    --br-xl: 10px;
+    --gap-xs: 8px;
+    --gap-s: 16px;
+    --gap-m: 24px;
+    --gap-l: 32px;
+    --gap-xl: 40px;
+    --font-size-mini: 12px;
+    --font-size-s: 16px;
+    --font-size-m: 18px;
+    --font-size-l: 24px;
+    --font-size-xl: 32px;
+    --font-family: 'Cafe24Ssurround', sans-serif;
+    --font-cafe24-Ssurround-otf: 'Cafe24Ssurround', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+}
+
+/* 웹 폰트 정의 */
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative; /* 컨테이너 내 위치 설정을 위해 상대 위치 지정 */
+}
+
+.header {
+    width: 100%;
+    height: 100px;
+    background-size: cover; /* 배경 이미지가 헤더를 덮도록 설정 */
+    background-position: center; /* 이미지의 위치를 중앙으로 설정 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--padding-s);
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* 헤더가 다른 요소들 위에 있도록 설정 */
+}
+
+.logo {
+    position: absolute; /* 절대 위치로 설정하여 상단가랜더 이미지 위에 위치하도록 설정 */
+    top: 10px; /* 화면 위에서부터 10px 아래에 위치 */
+    left: 25px; /* 화면 왼쪽에서부터 25px 오른쪽에 위치 */
+    padding: 5px;
+    height: 55px;
+    object-fit: cover;
+    z-index: 1001; /* 다른 요소보다 위에 표시되도록 설정 */
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 140px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    z-index: 1001;
+    border-radius: 100px;
+}
+
+.nav-item {
+    justify-content: left;
+    align-items: center;
+    display: flex;
+    height: 45px;
+    color: #ffffff;
+    font-family: var(--font-cafe24-Ssurround-otf);
+    font-size: 28px;
+    -webkit-text-stroke: 2px #696969;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: transparent;
+    border-radius: 100px;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-item:last-child {
+    margin-bottom: 0; /* 마지막 아이템은 간격 제거 */
+}
+
+.nav-item:hover {
+    background-color: #FFC567;
+    color: var(--color-white);
+}
+
+.user-info {
+    position: fixed;
+    top: 150px; /* 위에서 약간 떨어지도록 조정 */
+    right: 60px; /* 오른쪽에서 약간 떨어지도록 조정 */
+    width: 250px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+    background-color: white;
+    padding: 5px;
+    border-radius: 30px;
+    z-index: 1000;
+    border: 2px solid #FFC567;
+} 
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--font-size-s);
+    font-weight: bold;
+    color: #000000;
+}
+
+.profileUser {
+    width: 50px;
+    height: 50px;
+    padding-left: 10px;
+    padding-right: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+h1 { /* 회원정보 수정 텍스트 */
+    font-size: 32px;
+    color: black;
+    margin: 0;
+    padding-bottom: 20px;
+} 
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--padding-m);
+    position: relative;
+    padding-top: 150px;
+    color:#696969;
+    /* justify-content: center; */
+    background-color: #fffdf4; /* 배경색 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    width: 50%; /* 전체 너비 확장 */
+    box-sizing: border-box; /* 패딩 포함한 너비 계산 */
+}
+
+.profile-card { /* 회원정보수정창 */
+    width: 100%;
+    max-width: 500px; /* 최대 너비 설정 */
+    padding: var(--padding-l);
+    border: 1px solid var(--color-gainsboro);
+    border-radius: var(--br-xl);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-l);
+    z-index: 1; /* 다른 요소들 위에 오도록 설정 */
+}
+
+.profile-section {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-m);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    flex: 1;
+}
+
+.profile-name {
+    font-size: var(--font-size-l);
+    color: black;
+}
+
+.profile-email {
+    font-size: var(--font-size-s);
+    color: black;
+}
+
+.profile-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-s);
+}
+
+
+label {
+    font-size: var(--font-size-s);
+    color: var(--color-dimgray-100);
+}
+
+input {
+    padding: var(--padding-xs);
+    border: 1px solid var(--color-gainsboro);
+    border-radius: var(--br-3xs);
+    font-size: var(--font-size-s);
+    cursor: text; /* 입력 필드에 커서를 가져다 댈 때 텍스트 커서로 변경 */
+    background-color: var(--color-white); /* 입력 필드 배경색 흰색으로 설정 */
+    color: var(--color-black); /* 텍스트 색상 설정 */
+    box-sizing: border-box; /* 패딩 포함한 너비 계산 */
+}
+
+input:focus {
+    outline: none; /* 선택된 상태에서 기본 브라우저 테두리 제거 */
+    border-color: var(--color-darkorange); /* 포커스 시 테두리 색상 변경 */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    width: 100%; /* form-group의 너비를 100%로 설정 */
+}
+
+.actions-section {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-m);
+    width: 100%;
+}
+
+.action-button {
+    padding: var(--padding-xs) var(--padding-l);
+    width: 180px;
+    height: 50px;
+    border: none;
+    border-radius: 50px;
+    font-size: 20px;
+    font-family: var(--font-family);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-xs);
+    transition: background-color 0.3s ease, color 0.3s ease; /* 애니메이션 추가 */
+}
+
+.action-button-outline {
+    background-color: var(--color-white);
+    color: #08cb80; 
+    border: 1.5px solid #08cb80; 
+}
+
+.action-button-black {
+    background-color: #00995e;
+    color: var(--color-white);
+}
+
+/* hover 시 색상 변경 */
+.action-button-outline:hover {
+    background-color:#08cb80; /* 배경색 변경 */
+    color: var(--color-white); /* 텍스트 색상 변경 */
+}
+
+.action-button-black:hover {
+    background-color:#07da89; /* 배경색 변경 */
+    color:#ffffff; /* 텍스트 색상 유지 */
+    /* border: 1.5px solid #FFC567; */
+}
+
+p {
+    margin: 1em 0;
+    font-family: var(--font-cafe24-Ssurround-otf);
+}
+
+.footer {
+    text-align: center;
+    background-color: #FFC567;
+    color: var(--color-white);
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: auto;
+    padding: 0; /* 패딩 제거 */
+}
+
+.nav-images {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 390px;
+    left: 0;
+    right: 0;
+    padding: 0 var(--padding-m);
+    padding-top: 100px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.nav-image-left {
+    width: 280px;
+    height: auto;
+    padding-left: 30px;
+}
+
+.nav-image-right {
+    width: 280px;
+    height: auto;
+    padding-right: 30px;
+}

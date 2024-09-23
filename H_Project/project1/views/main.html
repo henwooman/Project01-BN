@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>메인페이지</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ONE+Mobile+OTF:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap">
+</head>
+
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <img class="logo" src="icon/BNlogo.png" alt="Logo">
+        <!-- <img class="header-image" alt="상단 배너" src"> -->
+
+    </header>
+
+    <nav class="nav">
+        <a href="/" class="nav-item">HOME</a>
+        <a href="mypage" class="nav-item">MY</a>
+        {% if nick %}
+        <a href="/user/logout" class="nav-item">LOGOUT</a>
+        {% else %}
+        <a href="login" class="nav-item">LOGIN</a>
+        {% endif %}
+    </nav>
+
+
+    <!-- 메인 콘텐츠 -->
+    <main class="mapApi">
+        <!-- 지도 표시 공간 -->
+        <div id="map"></div>
+
+        <!-- 필터 오버레이 -->
+        <div id="whiteBox">
+            <div class="filter-container">
+                <div class="filter-options">
+                    <!-- 가격 입력 -->
+                    <select id="money" name="money">
+                        <option value="" disabled selected>예산</option>
+                        <option value="man1">1만원 이하</option>
+                        <option value="man2">2만원 이하</option>
+                        <option value="man3">3만원 이하</option>
+                        <option value="man5">5만원 이하</option>
+                        <option value="man10">10만원 이하</option>
+                        <option value="mNot">가격 상관 없음</option>
+                    </select>
+                    <!-- 음식 분류 선택 -->
+                    <select id="food" name="food">
+                        <option value="" disabled selected>음식 분류 선택</option>
+                        <option value="korean">한식</option>
+                        <option value="chinese">중식</option>
+                        <option value="japanese">일식</option>
+                        <option value="western">양식</option>
+                    </select>
+                    <!-- 제출 버튼 -->
+                    <button id="search-btn" type="submit">검색</button>
+                    <img src="icon/ad2.png">
+                </div>
+            </div>
+            <!-- 필터 화살표 -->
+            <div class="topArrow">
+                <img src="icon/nyang.png" alt="화살표 이미지">
+            </div>
+        </div>
+
+        <!-- 검색 결과 박스 -->
+        <div class="search-results" id="search-results">
+            <!-- 왼쪽 화살표 -->
+            <div class="arrow arrow-left" id="arrow-left">&#9664;</div>
+            <button id="back-btn">뒤로</button>
+            <!-- 검색 결과 컨테이너 -->
+            <div class="search-results-container" id="search-results-container">
+                <!-- 검색 결과 아이템을 담는 컨테이너 -->
+                <div class="search-result-items" id="search-result-items">
+                    <!-- 검색 결과 아이템이 JavaScript를 통해 동적으로 추가될 예정 -->
+                </div>
+            </div>
+            <!-- 오른쪽 화살표 -->
+            <div class="arrow arrow-right" id="arrow-right">&#9654;</div>
+            <!-- 뒤로 버튼 -->
+        </div>
+        <!-- 상세 보기 박스 -->
+        <div class="detail-view" id="detail-view">
+            <button id="detail-back-btn">뒤로</button>
+            <div class="detail-view-content">
+                <div class="detail-view-left" id="detail-view-left"></div>
+                <div class="detail-view-right" id="detail-view-right"></div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- 카카오 지도 API 스크립트 -->
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f1b6faff923157823405998eae959e57"></script>
+
+    <!-- jQuery 라이브러리를 CDN을 통해 포함 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 지도 초기화
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(35.1504688, 126.9251658), // 중심좌표
+
+                level: 3 // 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        // 
+        // 마커를 표시할 위치와 title 객체 배열입니다 
+        var positions = [
+            {
+                title: '구미구미',
+                latlng: new kakao.maps.LatLng(35.1494983, 126.9251125),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200914_1%2F1600075741039Bb00X_JPEG%2FptcvfGGDGDJbui8agWG0cFic.jpeg.jpg', // 이미지 URL
+                address: '광주 동구 동계천로 143-11 1층',
+                reviews: 721
+            },
+            {
+                title: '규슈',
+                latlng: new kakao.maps.LatLng(35.1518367, 126.9258446),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210913_57%2F1631497811906TvnXG_JPEG%2F7CrARaXlbxdHjiT-mpogfVJ7.jpeg.jpg', // 이미지 URL
+                address: '광주 동구 동명로 47-3',
+                reviews: 3528
+            },
+            {
+                title: '달곰식당',
+                latlng: new kakao.maps.LatLng(35.1483995, 126.9262866),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230522_151%2F16847630529793xqKH_JPEG%2F1684763015132.jpg', // 이미지 URL
+                address: '광주 동구 장동로43번길 9',
+                reviews: 608
+            },
+            {
+                title: '돈부리바쇼 유메노덴',
+                latlng: new kakao.maps.LatLng(35.1504688, 126.9251658),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240110_217%2F1704892860570g78LE_JPEG%2FKakaoTalk_20240110_213335464.jpg', // 이미지 URL
+                address: '광주 동구 동명로20번길 16 1층',
+                reviews: 811
+            },
+            {
+                title: '동백카츠 동명점',
+                latlng: new kakao.maps.LatLng(35.1489187, 126.9253691),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230116_191%2F1673837659585yUMWX_JPEG%2FD.jpg', // 이미지 URL
+                address: '광주 동구 동계천로 147 1층 동백카츠 동명점',
+                reviews: 1051
+            },
+            {
+                title: '멘지 광주동명점',
+                latlng: new kakao.maps.LatLng(35.1490480, 126.9269365),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240615_125%2F1718439917766aez6M_JPEG%2FIMG_1528.jpeg', // 이미지 URL
+                address: '광주 동구 동계천로 162 1층',
+                reviews: 650
+            },
+            {
+                title: '목하식당',
+                latlng: new kakao.maps.LatLng(35.1516038, 126.9230852),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231220_216%2F1703038115075JdNro_JPEG%2FP20231219_142554809_43B555CB-E54D-497C-9704-BB80BEA31EF7.jpg', // 이미지 URL
+                address: '광주 동구 동명로25번길 6 1층 목하식당',
+                reviews: 2688
+            },
+            {
+                title: '미노라멘 ',
+                latlng: new kakao.maps.LatLng(35.1524255, 126.9256818),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240117_169%2F1705481101948muPSk_JPEG%2FIMG_8476.jpeg', // 이미지 URL
+                address: '광주 동구 동계로10번길 14 1층 미노라멘',
+                reviews: 571
+            },
+            {
+                title: '소보쿠',
+                latlng: new kakao.maps.LatLng(35.1471545, 126.9272677),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230110_213%2F1673333687418F5lJm_JPEG%2F24532690-5079-427B-8B6B-03467749F5D5.jpeg', // 이미지 URL
+                address: '광주 동구 장동로 51-1 소보쿠',
+                reviews: 419
+            },
+            {
+                title: '스시야스라기',
+                latlng: new kakao.maps.LatLng(35.1513995, 126.9219458),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221228_219%2F16721805072363tckz_JPEG%2F1000001962.jpg', // 이미지 URL
+                address: '광주 동구 동계천로 103-1 1층',
+                reviews: 1024
+            },
+            {
+                title: '연어쁘다 광주본점',
+                latlng: new kakao.maps.LatLng(35.1493025, 126.9269376),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240613_281%2F1718264221302C8Ixk_JPEG%2FIMG_6311.jpeg', // 이미지 URL
+                address: '광주 동구 동계천로 163 2층 연어쁘다',
+                reviews: 3749
+            },
+            {
+                title: '윤끼',
+                latlng: new kakao.maps.LatLng(35.1495830, 126.9257127),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20210724_32%2F1627111869265x27gx_JPEG%2FcCHyEePVvUWgFdmhT0hxkCIi.jpeg.jpg', // 이미지 URL
+                address: '광주 동구 동계천로 151-17 A동 1층 윤끼',
+                reviews: 475
+            },
+            {
+                title: '이츠모',
+                latlng: new kakao.maps.LatLng(35.1517023, 126.9254839),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230522_298%2F16847231183684qLYR_JPEG%2FA813AA58-55AF-4D7D-833C-32E8E32B24EC.jpeg', // 이미지 URL
+                address: '광주 동구 동명로 45-1 1층',
+                reviews: 1335
+            },
+            {
+                title: '지은초밥',
+                latlng: new kakao.maps.LatLng(35.1473677, 126.9268307),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230606_45%2F1685980678359KzFil_JPEG%2FKakaoTalk_20230606_005405427.jpg', // 이미지 URL
+                address: '광주 동구 장동로 47 지은초밥',
+                reviews: 1175
+            },
+            {
+                title: '천지라멘',
+                latlng: new kakao.maps.LatLng(35.1517023, 126.9254839),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240627_179%2F1719456702353YLStY_JPEG%2FP20240624_142155409_182BBB4C-64F3-4A13-ABDC-8BAEAF362A92.jpg', // 이미지 URL
+                address: '광주 동구 동명로 45-1',
+                reviews: 566
+            },
+            {
+                title: '츠바메',
+                latlng: new kakao.maps.LatLng(35.1497862, 126.9259279),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240702_163%2F1719898508371dH3X9_JPEG%2FKakaoTalk_20240702_142228146_04.jpg', // 이미지 URL
+                address: '광주 동구 동명로14번길 26 1층',
+                reviews: 430
+            },
+            {
+                title: '캬베츠',
+                latlng: new kakao.maps.LatLng(35.1520514, 126.9243047),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240710_64%2F1720577139533BFJtX_JPEG%2FKakaoTalk_20240529_110739372_03.jpg', // 이미지 URL
+                address: '광주 동구 동명로 33-3 캬베츠',
+                reviews: 1971
+            },
+            {
+                title: '토메이스시',
+                latlng: new kakao.maps.LatLng(35.1491790, 126.9262406),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20180904_21%2F1536045376431Imu50_JPEG%2F-H2Ex4B1jbZLNDCcinVbn04R.jpg', // 이미지 URL
+                address: '광주 동구 동계천로 155',
+                reviews: 401
+            },
+            {
+                title: '포카포카',
+                latlng: new kakao.maps.LatLng(35.1515969, 126.9223925),
+                imgSrc: 'https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221027_158%2F1666855050474FEQDX_JPEG%2F8473591F-4FEE-4DDB-986E-31BDABC279CE.jpeg', // 이미지 URL
+                address: '광주 동구 동명로25번길 11 1층 포카포카',
+                reviews: 556
+            }
+        ];
+
+        var activeOverlay = null; // 현재 활성화된 오버레이를 추적할 변수
+
+        for (var i = 0; i < positions.length; i++) {
+            var reviews = positions[i].reviews;
+
+            // 리뷰 수에 따라 마커 크기와 색상 설정
+            var imageSize;
+            var imageSrc;
+
+            if (reviews >= 1000) {
+                imageSize = new kakao.maps.Size(48, 48); // 크기 크게
+                imageSrc = "/icon/BigMapPin.png"; // 파란색
+            } else if (reviews >= 100) {
+                imageSize = new kakao.maps.Size(36, 36); // 크기 중간
+                imageSrc = "/icon/MedMapPin.png"; // 파란색
+            } else {
+                imageSize = new kakao.maps.Size(24, 24); // 크기 작게
+                imageSrc = "/icon/markermid_blue.png"; // 파란색
+            }
+
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: positions[i].latlng,
+                title: positions[i].title,
+                image: markerImage
+            });
+
+            var content = '<div class="wrap">' +
+                '    <div class="info">' +
+                '        <div class="title">' + positions[i].title +
+                '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+                '        </div>' +
+                '        <div class="body">' +
+                '            <div class="img">' +
+                '                <img src="' + positions[i].imgSrc + '" width="73" height="70">' +
+                '            </div>' +
+                '            <div class="desc">' +
+                '                <div class="ellipsis">' + positions[i].address + '</div>' +
+                '                <div class="reviews">리뷰 수: ' + reviews + '</div>' +
+                '            </div>' +
+                '        </div>' +
+                '    </div>' +
+                '</div>';
+
+            // 커스텀 오버레이를 생성합니다
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                position: marker.getPosition(),
+                map: null // 초기에는 오버레이를 숨깁니다
+            });
+
+            // 마커에 클릭 이벤트를 등록합니다
+            (function (marker, overlay) {
+                kakao.maps.event.addListener(marker, 'click', function () {
+                    if (activeOverlay) {
+                        activeOverlay.setMap(null);
+                    }
+                    overlay.setMap(map);
+                    activeOverlay = overlay;
+                });
+
+                // 닫기 버튼 클릭 이벤트
+                overlay.a.onclick = function () {
+                    overlay.setMap(null);
+                    activeOverlay = null;
+                };
+            })(marker, overlay);
+        }
+
+        // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+        function closeOverlay() {
+            if (activeOverlay) {
+                activeOverlay.setMap(null);
+                activeOverlay = null;
+            }
+        }
+
+        // 필터 화살표 클릭 시 오버레이 토글
+        document.querySelector('.topArrow').addEventListener('click', function () {
+            var mapApi = document.querySelector('.mapApi');
+            mapApi.classList.toggle('showOverlay');
+
+            // 현재 회전 상태 확인
+            const isRotated = this.style.transform.includes('rotate(180deg)');
+
+            // 회전 상태에 따라 새로운 회전 값 설정
+            if (isRotated) {
+                this.style.transform = 'translateX(-50%) rotate(0deg)';
+            } else {
+                this.style.transform = 'translateX(-50%) rotate(180deg)';
+            }
+        });
+
+        // 검색 버튼 클릭 시 기존 화이트 박스를 숨기고 검색 결과 박스를 표시
+        document.getElementById('search-btn').addEventListener('click', function () {
+            var selectedCategory = document.getElementById('food').value;
+            if (!selectedCategory) {
+                alert('음식 분류를 선택해주세요.');
+                return;
+            }
+
+            if (selectedCategory !== 'japanese') {
+                alert('차후 업데이트 예정입니다.');
+                return;
+            }
+            // 화이트 오버레이 숨김
+            document.getElementById('whiteBox').style.display = 'none';
+            // 검색 결과 표시
+            document.getElementById('search-results').classList.add('show');
+
+            // 검색 결과 컨테이너 가져오기
+            var searchResultsContainer = document.getElementById('search-result-items');
+            searchResultsContainer.innerHTML = '';
+
+            // reviews 수로 정렬 (내림차순)
+            positions.sort(function (a, b) {
+                return b.reviews - a.reviews;
+            });
+
+            // 상위 6개 항목만 가져오기
+            var topResults = positions.slice(0, 6);
+
+            // 검색 결과 아이템 동적으로 추가
+            topResults.forEach(function (result) {
+                // 아이템 컨테이너 생성
+                var resultItem = document.createElement('div');
+                resultItem.classList.add('search-result-item');
+
+                // 이미지 요소 생성 및 추가
+                var img = document.createElement('img');
+                img.src = result.imgSrc;
+                resultItem.appendChild(img);
+
+                // 가게명 텍스트 요소 생성 및 추가
+                var name = document.createElement('p');
+                name.textContent = result.title;
+                resultItem.appendChild(name);
+
+                // 찜 버튼 생성 및 추가
+                var likeButton = document.createElement('button');
+                likeButton.classList.add('like-button');
+                likeButton.textContent = '찜하기';
+                resultItem.appendChild(likeButton);
+
+                // 아이템을 검색 결과 컨테이너에 추가
+                searchResultsContainer.appendChild(resultItem);
+
+                // 찜 버튼 클릭 이벤트 리스너 추가
+                likeButton.addEventListener('click', function (e) {
+                    e.stopPropagation(); // 클릭 이벤트가 부모로 전달되지 않도록 방지
+                    alert(result.title + '을(를) 찜했습니다!');
+                });
+
+                // 검색 결과 아이템 클릭 이벤트 수정
+                resultItem.addEventListener('click', function () {
+                    // 검색 결과 박스 숨기기
+                    document.getElementById('search-results').classList.remove('show');
+                    // 상세 보기 박스 표시
+                    document.getElementById('detail-view').classList.add('show');
+                    // 상세 보기 내용 설정
+                    var detailViewLeft = document.getElementById('detail-view-left');
+                    var detailViewRight = document.getElementById('detail-view-right');
+                    detailViewLeft.innerHTML = '<h3>' + result.title + '</h3><img src="' + result.imgSrc + '" alt="' + result.title + '">';
+                    // AJAX 요청을 통해 상세 정보 가져오기
+                    $.ajax({
+                        url: '/getRestaurantDetails',
+                        type: 'GET',
+                        data: { rest_list_name: result.title },
+                        success: function (data) {
+                            // 상세 보기 오른쪽에 메뉴와 가격을 동적으로 생성
+                            var menuHtml = '<h4>메뉴 및 가격</h4>';
+                            if (Array.isArray(data) && data.length > 0) {
+                                data.forEach(function (menu) {
+                                    menuHtml += '<p>' + menu.rest_food_name + ': ' + menu.rest_list_price + '</p>';
+                                });
+                            } else {
+                                menuHtml += '<p>메뉴 정보가 없습니다.</p>';
+                            }
+                            detailViewRight.innerHTML = menuHtml;
+                        },
+                        error: function () {
+                            detailViewRight.innerHTML = '<p>상세 정보를 가져오는 데 실패했습니다.</p>';
+                        }
+                    });
+                });
+            });
+
+            // 뒤로 버튼에 이벤트 리스너 추가
+            document.getElementById('detail-back-btn').addEventListener('click', function () {
+                document.getElementById('detail-view').classList.remove('show');
+                document.getElementById('search-results').classList.add('show');
+            });
+        });
+
+        // 뒤로가기 버튼 클릭 시 검색 결과 박스를 숨기고 기존 화이트 박스를 표시
+        document.getElementById('back-btn').addEventListener('click', function () {
+            document.getElementById('search-results').classList.remove('show');
+            document.getElementById('whiteBox').style.display = 'flex';
+        });
+
+        // 슬라이드 기능
+        var slideIndex = 0;
+
+        // 왼쪽 화살표 클릭 시 슬라이드 이동
+        document.getElementById('arrow-left').addEventListener('click', function () {
+            var searchResultItems = document.getElementById('search-result-items');
+            if (slideIndex > 0) {
+                slideIndex--;
+                searchResultItems.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+            }
+        });
+
+        // 오른쪽 화살표 클릭 시 슬라이드 이동
+        document.getElementById('arrow-right').addEventListener('click', function () {
+            var searchResultItems = document.getElementById('search-result-items');
+            if (slideIndex < (searchResultItems.children.length / 3 - 1)) {
+                slideIndex++;
+                searchResultItems.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+            }
+        });
+
+        // 돌아가는 버튼
+        document.querySelector('.topArrow').addEventListener('click', function () {
+            // 현재 회전 상태 확인
+            const isRotated = this.style.transform.includes('rotate(180deg)');
+
+            // 회전 상태에 따라 새로운 회전 값 설정
+            if (isRotated) {
+                this.style.transform = 'translateX(-50%) rotate(0deg)';
+            } else {
+                this.style.transform = 'translateX(-50%) rotate(180deg)';
+            }
+        });
+    </script>
+</body>
+
+</html>

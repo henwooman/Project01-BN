@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <title>회원정보</title>
+    <link rel="stylesheet" href="/updateRegister.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ONE+Mobile+OTF:wght@700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img class="logo" alt="로고" src="/icon/BNlogo.png">
+            <img class="header-image" alt="상단 배너" src="icon/topgarender.png">
+        </header>
+        <!-- 네비게이션 바 -->
+        <nav class="nav" aria-label="Main Navigation">
+            <a href="/" class="nav-item" onclick="handleHomeButtonClick()">HOME</a>
+            <a href="mypage" class="nav-item" onclick="handleMyButtonClick()">MY</a>
+            {% if nick %}
+                <a href="/user/logout" class="nav-item">LOGOUT</a>
+            {% else %}
+                <a href="login" class="nav-item">LOGIN</a>
+            {% endif %}
+            <a href="favorite" class="nav-item" onclick="handleFavoriteButtonClick()">FAVORITE</a>
+        </nav>
+        
+        <!-- 유저 정보 영역 -->
+        <div class="user-info" id="userInfo">
+            <img class="profileUser" src="/icon/userpink.png" alt="프로필 사진" id="profilePic">
+            <div class="user-details">
+                <span id="userId">비회원 님</span>
+                <span id="userEmail"></span>
+            </div>
+        </div>
+        <!-- 네비게이션 이미지 좌우가랜더 -->
+        <div class="nav-images">
+            <img src="/icon/dividergrender.png" alt="Left Image" class="nav-image-left">
+            <img src="/icon/dividergrender.png" alt="Right Image" class="nav-image-right">
+        </div>
+
+        <main class="main">
+            <h1>회원정보 수정</h1>
+            <div class="profile-card">
+                <div class="profile-section">
+                    <img class="profile-pic" src="/icon/usergray.png" alt="Profile">
+                    <div class="profile-info">
+                        <b class="profile-name">{{nick}}</b>
+                        
+                    </div>
+                </div>
+                <form class="profile-form">
+                    <div class="form-group">
+                        <label for="nickname">닉네임 수정</label>
+                        <input type="text" id="nickname" name="nick" placeholder="새 닉네임">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">비밀번호 수정</label>
+                        <input type="password" id="password" name="pw" placeholder="새 비밀번호">
+                    </div>
+                </form>
+                <div class="actions-section" >
+                    <button class="action-button action-button-outline" onclick="updateInfo()">정보수정</button>
+                    <button class="action-button action-button-black"  onclick="location.href='cancelMember';">회원탈퇴</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        // 우측상단 로그인 여부를 확인하여 user-info 표시 내용을 결정
+        function checkLoginStatus() {
+            var isLoggedIn = false; // 이 값은 실제 로그인 상태에 따라 변경되어야 합니다.
+
+            if (isLoggedIn) {
+                displayUserInfo("user@example.com", "닉네임");
+            } else {
+                displayGuestInfo();
+            }
+        }
+
+        var userNickname = "{{nick}}";
+        var userEmail = "{{email}}";
+
+        // 페이지 로드 시 로그인한 유저 정보 표시
+        window.onload = function() {
+            displayUserInfo(userEmail, userNickname);
+        };
+
+        // 로그인한 유저 정보 표시
+        function displayUserInfo(userId, userNickname) {
+            document.getElementById('userId').innerText = userNickname + "님";
+            document.getElementById('userEmail').innerText = userId;
+            document.getElementById('profilePic').src = "/icon/userpink.png"; // 프로필 사진 경로
+        }
+        
+        // 비회원 정보 표시
+        function displayGuestInfo() {
+            document.getElementById('userId').innerText = userNickname + "님";
+            document.getElementById('userEmail').innerText = userEmail;
+            document.getElementById('profilePic').src = "/icon/userpink.png"; // 비회원 기본 사진 경로
+        }
+
+        // 페이지 로드 시 로그인 상태 확인
+        window.onload = checkLoginStatus;
+
+        function updateInfo() {
+            alert("정보가 수정되었습니다.");
+        }
+
+        // 회원탈퇴 버튼 클릭 시 cancelMember.html 페이지로 이동
+        function confirmDelete() {
+            window.location.href = "/cancelMember.html"; // ㄱ 회원탈퇴 페이지로 이동
+        }
+    </script>
+    <footer class="footer">
+        <p>@ 2024 Black Nuguri</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="stylesheet" href="/succesRegister.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ONE+Mobile+OTF:wght@400;700&display=swap" />
+    <title>회원가입 성공</title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img class="logo" alt="로고" src="/icon/BNlogo.png">
+            <img class="header-image" alt="상단 배너" src="/icon/topgarender.png">
+        </header>
+        
+        <!-- 네비게이션 바 -->
+        <nav class="nav" aria-label="Main Navigation">
+            <a href="/" class="nav-item" onclick="handleHomeButtonClick()">HOME</a>
+            <a href="mypage" class="nav-item" onclick="handleMyButtonClick()">MY</a>
+            {% if nick %}
+                <a href="/user/logout" class="nav-item">LOGOUT</a>
+            {% else %}
+                <a href="login" class="nav-item">LOGIN</a>
+            {% endif %}
+            <a href="favorite" class="nav-item" onclick="handleFavoriteButtonClick()">FAVORITE</a>
+        </nav>
+        
+        <!-- 유저 정보 영역 -->
+        <div class="user-info" id="userInfo">
+            <img class="profileUser" src="/icon/userpink.png" alt="프로필 사진" id="profilePic">
+            <div class="user-details">
+                <span id="userId">비회원 님</span>
+                <span id="userEmail">이메일@mail.com</span>
+            </div>
+        </div>
+        
+        <!-- 네비게이션 이미지 좌우가랜더 -->
+        <div class="nav-images">
+            <img src="/icon/dividergrender.png" alt="왼쪽 이미지" class="nav-image-left">
+            <img src="/icon/dividergrender.png" alt="오른쪽 이미지" class="nav-image-right">
+        </div>
+        
+        <main class="main">
+            <div class="image-container">
+                <img src="/icon/nugul1.png" alt="프로필 사진" class="top-image">
+                <div class="text-box">
+                    <h1>회원가입 성공 !</h1>
+                    <p>블랙너구리가 된 것을 환영합니다 !</p>
+                </div>
+                <div class="button-container">
+                    <!-- 메인화면으로 돌아가기 버튼 -->
+                    <button class="action-button" onclick="redirectToMain()">메인화면으로 돌아가기</button>
+                </div>
+            </div>
+        </main>
+        
+        <script>
+
+
+            // 특정 페이지로 리다이렉트하는 함수
+            function redirectToMain() {
+                // 원하는 URL로 변경하세요. 예: /newMainPage.html
+                window.location.href = "/"; 
+            }
+
+            // 로그인 여부를 확인하여 user-info 표시 내용을 결정
+            function checkLoginStatus() {
+                var isLoggedIn = false; // 이 값은 실제 로그인 상태에 따라 변경되어야 합니다.
+
+                if (isLoggedIn) {
+                    displayUserInfo("user@example.com", "닉네임");
+                } else {
+                    displayGuestInfo();
+                }
+            }
+
+            // 로그인한 유저 정보 표시
+            function displayUserInfo(userId, userNickname) {
+                document.getElementById('userId').innerText = userNickname + " 님";
+                document.getElementById('userEmail').innerText = userId;
+                document.getElementById('profilePic').src = "/icon/userpink.png"; // 프로필 사진 경로
+            }
+
+            // 비회원 정보 표시
+            function displayGuestInfo() {
+                document.getElementById('userId').innerText = "비회원 님";
+                document.getElementById('userEmail').innerText = "";
+                document.getElementById('profilePic').src = "/icon/userpink.png"; // 비회원 기본 사진 경로
+            }
+
+            // 페이지 로드 시 로그인 상태 확인
+            window.onload = checkLoginStatus;
+        </script>
+        
+        <footer class="footer">
+            <p>@ 2024 Black Nuguri</p>
+        </footer>
+    </div>
+</body>
+</html>
