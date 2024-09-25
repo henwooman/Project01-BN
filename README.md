@@ -17,7 +17,7 @@
 ---
 2024.07.19 ~ 2024. 08. 02
 ### 4. 주요 기능
-
+---
 ![image](https://github.com/user-attachments/assets/788cfdde-2eb0-4e3e-9b8d-fe1e900e2561)
 --
 ![image](https://github.com/user-attachments/assets/36394523-1d9e-489d-a329-110355611307)
