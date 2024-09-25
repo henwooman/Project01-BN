@@ -52,3 +52,11 @@
 ---
 ![image](https://github.com/user-attachments/assets/269785cd-ae25-4964-b3a5-17ec5d23ebb9)
 
+### 8. 기대효과 및 향후 발전 방향
+---
+![image](https://github.com/user-attachments/assets/c4b9e02d-4da3-4a1d-b721-e33cd40d873c)
+
+![image](https://github.com/user-attachments/assets/5cee3dba-6d77-4ef0-bf5a-8997be751146)
+
+
+
