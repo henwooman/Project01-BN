@@ -5,12 +5,12 @@
 ### 2. 서비스 소개
 ---
 #### 기존 서비스는 광고 및 가시성이 떨어짐
---
+
 ![image](https://github.com/user-attachments/assets/8ab64623-2237-47c6-a905-ceea76acbbaf)
 ![image](https://github.com/user-attachments/assets/b34d7feb-b2e6-41fe-9cd6-badf937e0ca9)
 --
 #### 그래서 쉽게 맛집을 찾고 리뷰 기반으로 추천하는 서비스를 개발
---
+
 ![image](https://github.com/user-attachments/assets/3019062c-a50a-4e27-9cd4-fcb14f75b8fd)
 
 ### 3. 프로젝트 기간
