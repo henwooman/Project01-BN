@@ -55,8 +55,11 @@
 ### 8. 기대효과 및 향후 발전 방향
 ---
 ![image](https://github.com/user-attachments/assets/c4b9e02d-4da3-4a1d-b721-e33cd40d873c)
-
-![image](https://github.com/user-attachments/assets/5cee3dba-6d77-4ef0-bf5a-8997be751146)
-
+--
+#### 향후 발전 방향
+1. 부정 데이터를 만들어서 학습시킨 뒤 감정분석 모델 긍부정 정확도 상승
+2. 앱에서도 웹사이트가 호환이 가능하게 개발
+3. 마커 표기의 감정분석 차별성 추가(긍정,부정)
+4. 동명동뿐만 아니라 광주 전체, 서비스 지역 확장
 
 
